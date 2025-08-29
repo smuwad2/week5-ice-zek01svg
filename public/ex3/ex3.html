@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body onload="getCategories()">
+    <div class="container-fluid">
+        <h1 class="text-center">Supermarket</h1>
+        <div class="row">
+            <div class="col-md-3">
+                <span class="lead text-center">Category</span>
+            </div>
+            <div class="col-md-9">
+                <select class="form-select" onchange="getItems()" id="selectCategory">
+                    <option value="0">To select</option>
+                    <option value="all">All</option>
+
+                </select>
+            </div>
+        </div>
+
+
+        <div id="itemsList" class="row my-3 py-3">
+            <p class="text-center">No items</p>
+        </div>
+    </div>
+    
+    <script>
+        function getCategories() {
+            // Fetch categories from the server using Axios
+            // and display them in the select element
+            // url: http://localhost:3010/categories
+
+        }
+
+        function showCategories(categories) {
+            // Display the categories in the select element
+            
+        }
+
+        function getItems() {
+            // Fetch items based on the selected category
+            // If "To select" is chosen, do nothing
+            // If "All" is chosen, fetch all items
+            // If a specific category is chosen, fetch items for that category
+            // url: http://localhost:3010/items?category=categoryName
+            
+        }
+
+        function showItems(items) {
+            // Display the items in the itemsList div
+            // Each item should be displayed in a bootstrap card format
+            // The display should be responsive 3 columns on large screens, 2 columns on medium screens, and 1 column on small screens
+            
+
+        }
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
