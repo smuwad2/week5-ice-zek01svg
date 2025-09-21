@@ -27,7 +27,7 @@
         </div>
 
 
-        <div id="itemsList" class="row my-3 py-3">
+        <div id="itemsList" class="row my-3 py-3 justify-content-between">
             <p class="text-center">No items</p>
         </div>
     </div>
@@ -71,7 +71,7 @@
             }
         }
 
-        function getItems() {
+        async function getItems() {
             // Fetch items based on the selected category
             // If "To select" is chosen, do nothing
             // If "All" is chosen, fetch all items
@@ -80,20 +80,32 @@
             
             const url = 'https://stunning-zebra-v6qvr9vgvpwvcwg7v-3000.app.github.dev/items'
 
-            // define null variables first
-            var data;
-            var categoryName;
+            // define null and main variables first
+            const categoryName = document.getElementsByClassName('form-select')[0].value // get the value of the dropdown 
 
-            categoryName = document.getElementsByClassName('form-select')[0].value
-
-            axios.get(url, {
-                    params: {
-                        'category': categoryName}
-                })
-                .then (response => {
-                    data = response.data
-                    console.log(data)
-                })
+            try {
+                // this is for the case 'All' was chosen and where all items will be displayed
+                if (categoryName === 'all') {
+                    const response = await axios.get(url)
+                    const items = response.data // this will be a list of all the supermarket items
+                    showItems(items) 
+                }
+                else if (categoryName === '0') {
+                    // INTENTIONALLY DO NOTHING FOR THIS CASE
+                }
+                // this is for the case where there is a selected category
+                else {
+                    const response = await axios.get(url, {
+                                                            params: {
+                                                                'category': categoryName}
+                                                            })
+                    const items = response.data
+                    showItems(items)
+                }
+            }
+            catch (err){
+                console.error('error fetching items: ', err)
+            }
         }
 
         function showItems(items) {
@@ -101,6 +113,47 @@
             // Each item should be displayed in a bootstrap card format
             // The display should be responsive 3 columns on large screens, 2 columns on medium screens, and 1 column on small screens
             
+            // define null variables first
+            var data;
+            var categoryName;
+            var node;
+            var i;
+            var itemNameNode;
+            var itemPriceNode;
+            var itemsList = document.getElementById('itemsList')
+            var h5;
+            var p;
+            var cardBody;
+            var card;
+
+            for (let item of items) { 
+
+                itemNameNode = document.createTextNode(item.name)
+                itemPriceNode = document.createTextNode(item.price)
+
+                // put the values into bootstrap cards
+                h5 = document.createElement('h5')
+                h5.appendChild(itemNameNode)
+                h5.className = 'card-title'
+
+                p = document.createElement('p')
+                p.appendChild(itemPriceNode)
+                p.className = 'card-text'
+
+                // put the nodes into the card body div
+                cardBody = document.createElement('div')
+                cardBody.className = 'card-body' // update the class name
+                cardBody.appendChild(h5) 
+                cardBody.appendChild(p)
+
+                // put the card body into the main card div
+                card = document.createElement('div')
+                card.className = 'card col-lg-3 col-md-6 col-sm-12 mx-2 my-2'
+                card.appendChild(cardBody)
+
+                // append the main card div to the div containing the list of items
+                itemsList.appendChild(card)
+            }        
 
         }
 
