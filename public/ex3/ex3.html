@@ -38,11 +38,37 @@
             // and display them in the select element
             // url: http://localhost:3010/categories
 
+            const url = 'https://stunning-zebra-v6qvr9vgvpwvcwg7v-3000.app.github.dev/categories'
+
+            axios.get(url)
+            .then (response => {
+                // console.log(response.data)
+                
+                // assign the data to a variable
+                var categories = response.data 
+
+                // call the showCategories function
+                showCategories(categories)
+            })
         }
 
         function showCategories(categories) {
             // Display the categories in the select element
-            
+
+            // define blank variables
+            var node;
+            var dropdown = document.getElementsByClassName('form-select')[0]
+            var option;
+
+            for (category of categories) {
+                // console.log(category)
+
+                option = document.createElement('option')
+                node = document.createTextNode(category)
+                option.appendChild(node)
+                dropdown.appendChild(option)
+
+            }
         }
 
         function getItems() {
@@ -52,6 +78,22 @@
             // If a specific category is chosen, fetch items for that category
             // url: http://localhost:3010/items?category=categoryName
             
+            const url = 'https://stunning-zebra-v6qvr9vgvpwvcwg7v-3000.app.github.dev/items'
+
+            // define null variables first
+            var data;
+            var categoryName;
+
+            categoryName = document.getElementsByClassName('form-select')[0].value
+
+            axios.get(url, {
+                    params: {
+                        'category': categoryName}
+                })
+                .then (response => {
+                    data = response.data
+                    console.log(data)
+                })
         }
 
         function showItems(items) {
